@@ -3,9 +3,9 @@ import sys
 def curses_main(args):
     stdscr = curses.initscr()
     pad = curses.newpad(200,100)
+    pad_height, pad_width = stdscr.getmaxyx()
     curses.start_color()
     curses.use_default_colors()
-
     curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
     curses.init_pair(2, curses.COLOR_BLUE, curses.COLOR_BLACK)
     curses.init_pair(3, curses.COLOR_BLACK, curses.COLOR_BLUE)
@@ -41,7 +41,8 @@ def curses_main(args):
             pad.addstr(i-current_line_num,0, lines[i])
 
         stdscr.refresh()
-        pad.refresh(0,0,0,0,42,100)
+
+        pad.refresh(0,0,0,0,pad_height-1,pad_width-1)
         c =pad.getch()
         if c == 27: #esc
             break
@@ -63,6 +64,7 @@ def curses_main(args):
                 textvar = lines[current_line_num]
                 completed_text=""
                 stdscr.clear()
+                pad.clear()
             current_char_val = textvar[current_char_pos]
 
 
